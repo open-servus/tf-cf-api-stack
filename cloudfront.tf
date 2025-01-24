@@ -13,6 +13,8 @@ resource "aws_cloudfront_vpc_origin" "nlb" {
   }
   timeouts {
     create = "30m"
+    update = "30m"
+    delete = "30m"
   }
 }
 
@@ -22,13 +24,24 @@ locals {
 
 resource "aws_cloudfront_distribution" "distribution" {
   origin {
-    domain_name              = aws_vpc_endpoint.api.dns_entry[0].dns_name
-    origin_id                = local.private_api_origin_id
+    domain_name = aws_vpc_endpoint.api.dns_entry[0].dns_name
+    origin_id   = local.private_api_origin_id
+    origin_path = "/dev"
+    custom_header {
+      name  = "x-apigw-api-id"
+      value = aws_api_gateway_rest_api.main.id
+    }
+
+    vpc_origin_config {
+      origin_keepalive_timeout = 10
+      origin_read_timeout      = 30
+      vpc_origin_id            = aws_cloudfront_vpc_origin.nlb.id
+    }
   }
 
-  enabled             = true
-  is_ipv6_enabled     = true
-  comment             = "${var.application}-${var.environment}"
+  enabled         = true
+  is_ipv6_enabled = true
+  comment         = "${var.application}-${var.environment}"
 
   default_cache_behavior {
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
@@ -51,8 +64,8 @@ resource "aws_cloudfront_distribution" "distribution" {
 
   restrictions {
     geo_restriction {
-      restriction_type = "whitelist"
-      locations        = ["US", "CA", "GB", "DE"]
+      restriction_type = "none"
+      locations        = []
     }
   }
 
