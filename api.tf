@@ -2,7 +2,7 @@ resource "aws_api_gateway_rest_api" "main" {
   body = jsonencode({
     openapi = "3.0.1"
     info = {
-      title   = "tao-test-api"
+      title   = "${var.application}-${var.environment}"
       version = "1.0"
     }
     paths = {
@@ -19,7 +19,7 @@ resource "aws_api_gateway_rest_api" "main" {
     }
   })
 
-  name              = "tao-test-api"
+  name              = "${var.application}-${var.environment}"
   put_rest_api_mode = "merge"
   policy = jsonencode({
     Version = "2012-10-17",

@@ -1,5 +1,5 @@
 resource "aws_lb" "nlb" {
-  name               = "tao-test-api"
+  name               = "${var.application}-${var.environment}"
   internal           = true
   load_balancer_type = "network"
   subnets            = [join("", aws_subnet.sp1.*.id), join("", aws_subnet.sp2.*.id), join("", aws_subnet.sp3.*.id)]
