@@ -26,7 +26,7 @@ resource "aws_cloudfront_distribution" "distribution" {
   origin {
     domain_name = aws_vpc_endpoint.api.dns_entry[0].dns_name
     origin_id   = local.private_api_origin_id
-    origin_path = "/dev"
+    origin_path = "/${var.environment}"
     custom_header {
       name  = "x-apigw-api-id"
       value = aws_api_gateway_rest_api.main.id

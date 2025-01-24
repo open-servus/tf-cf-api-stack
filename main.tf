@@ -161,7 +161,7 @@ resource "aws_vpc_endpoint" "api" {
   subnet_ids        = [join("", aws_subnet.sp1.*.id), join("", aws_subnet.sp2.*.id), join("", aws_subnet.sp3.*.id)]
 
   tags = {
-    Name = "${var.application}-${var.environment}-private-api-gateway-endpoint"
+    Name = "${var.application}-${var.environment}-api-endpoint"
   }
   security_group_ids = [aws_security_group.sg.id]
 }

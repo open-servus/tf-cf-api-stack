@@ -1,5 +1,5 @@
 resource "aws_lb" "nlb" {
-  name               = "tao-test-api"
+  name               = "${var.application}-${var.environment}"
   internal           = true
   load_balancer_type = "network"
   subnets            = [join("", aws_subnet.sp1.*.id), join("", aws_subnet.sp2.*.id), join("", aws_subnet.sp3.*.id)]
@@ -24,7 +24,7 @@ resource "aws_alb_listener" "https" {
 }
 
 resource "aws_lb_target_group" "tcp_443" {
-  name                 = "vpce-${var.environment}"
+  name                 = "${var.application}-${var.environment}-vpce"
   port                 = 443
   protocol             = "TCP"
   target_type          = "ip"
