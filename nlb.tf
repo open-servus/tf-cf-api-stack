@@ -2,7 +2,7 @@ resource "aws_lb" "nlb" {
   name               = "tao-test-api"
   internal           = true
   load_balancer_type = "network"
-  subnets            = [join("", aws_subnet.sp1.*.id),join("", aws_subnet.sp2.*.id),join("", aws_subnet.sp3.*.id)]
+  subnets            = [join("", aws_subnet.sp1.*.id), join("", aws_subnet.sp2.*.id), join("", aws_subnet.sp3.*.id)]
 
   security_groups            = [aws_security_group.sg.id]
   enable_deletion_protection = false
