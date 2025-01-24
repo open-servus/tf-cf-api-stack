@@ -1,0 +1,11 @@
+# Logs and databases #
+######################
+*.log
+
+# Terraform #
+#############
+.terraform
+.terraform.lock.hcl
+*tfstate*
+*_lambda.zip
+*.zip
