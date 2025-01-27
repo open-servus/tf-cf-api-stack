@@ -1,3 +1,20 @@
+/*
+  This Terraform configuration defines resources for setting up an AWS CloudFront distribution with a VPC origin.
+
+  Resources:
+  - aws_cloudfront_vpc_origin.nlb: Configures a VPC origin for CloudFront with specified endpoint configuration and timeouts.
+    - vpc_origin_endpoint_config: Specifies the VPC origin endpoint configuration including name, ARN, ports, and SSL protocols.
+    - timeouts: Defines the timeouts for create, update, and delete operations.
+
+  - local.private_api_origin_id: Defines a local variable for the private API origin ID.
+
+  - aws_cloudfront_distribution.distribution: Configures a CloudFront distribution with the specified origin, cache behavior, restrictions, tags, and viewer certificate.
+    - origin: Specifies the origin configuration including domain name, origin ID, path, custom headers, and VPC origin config.
+    - default_cache_behavior: Defines the default cache behavior including allowed methods, forwarded values, and TTL settings.
+    - restrictions: Configures geo-restrictions for the distribution.
+    - tags: Adds tags to the CloudFront distribution.
+    - viewer_certificate: Specifies the viewer certificate configuration for the distribution.
+*/
 resource "aws_cloudfront_vpc_origin" "nlb" {
   vpc_origin_endpoint_config {
     name                   = "${var.application}-${var.environment}"

@@ -1,3 +1,21 @@
+// This Terraform configuration defines an AWS API Gateway REST API, deployment, and stage.
+
+// The aws_api_gateway_rest_api resource creates a REST API in API Gateway.
+// - The `body` attribute defines the OpenAPI specification for the API, including paths and methods.
+// - The `name` attribute sets the name of the API using the application and environment variables.
+// - The `put_rest_api_mode` attribute is set to "merge" to update the API configuration.
+// - The `policy` attribute defines an IAM policy allowing all principals to invoke the API.
+// - The `endpoint_configuration` block configures the API to be private and associates it with a VPC endpoint.
+
+// The aws_api_gateway_deployment resource creates a deployment for the REST API.
+// - The `rest_api_id` attribute links the deployment to the REST API.
+// - The `triggers` attribute forces a redeployment when the API definition changes.
+// - The `lifecycle` block ensures the deployment is created before the previous one is destroyed.
+
+// The aws_api_gateway_stage resource creates a stage for the REST API deployment.
+// - The `deployment_id` attribute links the stage to the deployment.
+// - The `rest_api_id` attribute links the stage to the REST API.
+// - The `stage_name` attribute sets the name of the stage using the environment variable.
 resource "aws_api_gateway_rest_api" "main" {
   body = jsonencode({
     openapi = "3.0.1"
